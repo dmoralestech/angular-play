@@ -4,5 +4,6 @@
 
 
 var Provider = {
+    _providers: {}
     
 };
