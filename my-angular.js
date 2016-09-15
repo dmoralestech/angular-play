@@ -4,16 +4,18 @@ function Scope() {
     // Watch
     this.$$watchers = [];
 
-    this.$watch = function(watcherFn, listenerFn) {
+    this.$watch = function (watcherFn, listenerFn) {
         this.$$watchers.push({
             watcherFn: watcherFn,
             listenerFn: listenerFn
         });
+        console.log('this.$watch', this.$$watchers);
     };
 
     // Digest
-    this.$digest = function() {
-        this.$$watchers.forEach(function(watcher) {
+    this.$digest = function () {
+        console.log('calling this.$digest...');
+        this.$$watchers.forEach(function (watcher) {
             var newValue = watcher.watcherFn();
             var oldValue = watcher.last;
             if (newValue !== oldValue) {
@@ -24,9 +26,10 @@ function Scope() {
     };
 
     // Apply
-    this.$apply = function(exprFn) {
+    this.$apply = function (exprFn) {
         try {
             if (exprFn) {
+                console.log('exprFn', exprFn);
                 exprFn();
             }
         } finally {
@@ -35,20 +38,22 @@ function Scope() {
     };
 
     this.$$directives = {
-        'ng-bind': function($scope, element, attrs) {
+        'ng-bind': function ($scope, element, attrs) {
+            console.log('ng-bind');
             var prop = element.attributes['ng-bind'].value;
-            $scope.$watch(function() {
+            $scope.$watch(function () {
                 return $scope[prop];
-            }, function(newValue, oldValue) {
+            }, function (newValue, oldValue) {
                 element.innerHTML = $scope[prop];
             });
         },
-        'ng-model': function($scope, element, attrs) {
+        'ng-model': function ($scope, element, attrs) {
+            console.log('ng-model');
             var prop = element.attributes['ng-model'].value;
-            $scope.$watch(function() {
+            $scope.$watch(function () {
                 return $scope[prop];
-            }, function(newValue, oldValue) {
-                element.addEventListener("keyup", function(){
+            }, function (newValue, oldValue) {
+                element.addEventListener("keyup", function () {
                     $scope[prop] = element.value;
                     $scope.$apply();
                 });
@@ -57,15 +62,16 @@ function Scope() {
     };
 
     // Compile
-    this.$compile = function(element, $scope) {
+    this.$compile = function (element, $scope) {
+        console.log('this.$compile...', element, $scope);
         Array.prototype.forEach.call(
             element.children,
-            function(child) {
+            function (child) {
                 $scope.$compile(child, $scope);
             });
         Array.prototype.forEach.call(
             element.attributes,
-            function(attribute) {
+            function (attribute) {
                 var directive = $scope.$$directives[attribute.name];
                 if (directive) {
                     directive($scope, element, element.attributes);
@@ -78,18 +84,20 @@ function Scope() {
     this.$apply();
 }
 
-function Controller (){
+function Controller() {
     this.scope = new Scope();
 }
 
-function Angular(){
-    this.module = function(name, requires){
+function Angular() {
+    this.module = function (name, requires) {
+        console.log('calling module....', name, requires);
         return this;
     };
 
     this.controllers = [];
 
-    this.controller = function(name, ctrlFn){
+    this.controller = function (name, ctrlFn) {
+        console.log('calling controller...', name, ctrlFn);
         var ctrl = new Controller();
         ctrlFn(ctrl.scope);
         ctrl.scope.$apply();
