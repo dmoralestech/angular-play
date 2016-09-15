@@ -1,6 +1,8 @@
 // Scope
 function Scope() {
 
+    console.log('inside Scope..');
+
     // Watch
     this.$$watchers = [];
 
@@ -85,7 +87,9 @@ function Scope() {
 }
 
 function Controller() {
+    console.log('calling Controller and creating new scope..')
     this.scope = new Scope();
+    console.log('scope created', this.scope);
 }
 
 function Angular() {
@@ -99,8 +103,11 @@ function Angular() {
     this.controller = function (name, ctrlFn) {
         console.log('calling controller...', name, ctrlFn);
         var ctrl = new Controller();
+        console.log('calling ', ctrlFn, 'with', ctrl.scope);
         ctrlFn(ctrl.scope);
+        console.log('callng ctrl.scope.$apply()');
         ctrl.scope.$apply();
+        console.log('calling this.controllers.push', ctrl);
         this.controllers.push(ctrl);
     };
 }
