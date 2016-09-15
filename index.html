@@ -12,12 +12,12 @@ result: <span ng-bind="hello"></span>
 
 <script src="my-angular.js"></script>
 <script>
-    angular.module('app', [])
-            .controller('ctrl', function ($scope) {
+    var app = angular.module('app', []);
 
-                // Set hello to 'nihao'
-                $scope.hello = 'nihao';
-            });
+    app.controller('ctrl', function ($scope) {
+        // Set hello to 'nihao'
+        $scope.hello = 'nihao';
+    });
 </script>
 </body>
 </html>
