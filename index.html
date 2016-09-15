@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+Input: <input type="text" ng-model="hello"><br>
+
+result: <span ng-bind="hello"></span>
+
+<script src="my-angular.js"></script>
+<script>
+    angular
+            .module('app', [])
+            .controller('ctrl', function($scope){
+
+                // Set hello to 'nihao'
+                $scope.hello = 'nihao';
+            });
+</script>
+</body>
+</html>
