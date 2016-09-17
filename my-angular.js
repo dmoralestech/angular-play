@@ -109,6 +109,7 @@ function Angular() {
         ctrl.scope.$apply();
         console.log('calling this.controllers.push', ctrl);
         this.controllers.push(ctrl);
+        return this;
     };
 }
 
