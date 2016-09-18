@@ -1,4 +1,10 @@
 {
   "name": "my-angular",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "devDependencies": {
+    "jshint": "^2.9.3"
+  },
+  "scripts": {
+    "lint": "jshint src"
+  }
 }
