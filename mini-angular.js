@@ -318,3 +318,23 @@ Provider.service('timeout', function ($rootScope) {
         }, timeout);
     };
 });
+
+Provider.service('RESTfulService', function () {
+    return function (url) {
+        // make restful call & return promise
+    };
+});
+
+Provider.controller('MainCtrl', function (RESTfulService) {
+    RESTfulService(url)
+        .then(function (data) {
+            alert(data);
+        });
+});
+
+Provider.controller('MainCtrl', function ($scope) {
+    $scope.bar = 0;
+    $scope.foo = function () {
+        $scope.bar += 1;
+    };
+});

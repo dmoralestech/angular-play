@@ -52,14 +52,16 @@ function Scope() {
         'ng-model': function ($scope, element, attrs) {
             console.log('ng-model');
             var prop = element.attributes['ng-model'].value;
-            $scope.$watch(function () {
-                return $scope[prop];
-            }, function (newValue, oldValue) {
-                element.addEventListener("keyup", function () {
-                    $scope[prop] = element.value;
-                    $scope.$apply();
+            $scope.$watch(
+                function () {
+                    return $scope[prop];
+                },
+                function (newValue, oldValue) {
+                    element.addEventListener("keyup", function () {
+                        $scope[prop] = element.value;
+                        $scope.$apply();
+                    });
                 });
-            });
         }
     };
 
@@ -86,9 +88,10 @@ function Scope() {
     this.$apply();
 }
 
-function Controller() {
+function Controller(name) {
     console.log('calling Controller and creating new scope..')
     this.scope = new Scope();
+    this.name = name;
     console.log('scope created', this.scope);
 }
 
@@ -102,7 +105,7 @@ function Angular() {
 
     this.controller = function (name, ctrlFn) {
         console.log('calling controller...', name, ctrlFn);
-        var ctrl = new Controller();
+        var ctrl = new Controller(name);
         console.log('calling ', ctrlFn, 'with', ctrl.scope);
         ctrlFn(ctrl.scope);
         console.log('callng ctrl.scope.$apply()');
